@@ -1,5 +1,9 @@
 import { Box } from "@chakra-ui/react";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import DATA from "../data";
 import { useState } from "react";
 
@@ -7,17 +11,18 @@ const columns = [
   {
     header: "TASK",
     accessorKey: "task",
+    size: 225,
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
     header: "STATUS",
     accessorKey: "status",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: (props) => <p>{props.getValue()?.name}</p>,
   },
   {
     header: "DUE",
     accessorKey: "due",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: (props) => <p>{props.getValue()?.toLocaleTimeString()}</p>,
   },
   {
     header: "NOTES",
@@ -31,17 +36,34 @@ const TaskTable = () => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange",
   });
 
   console.log(table.getHeaderGroups());
   return (
     <Box>
-      <Box className="table">
+      <Box className="table" w={table.getTotalSize()}>
         {table.getHeaderGroups().map((headerGroup) => (
           <Box className="tr" key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <Box className="th" key={header.id}>
+              <Box className="th" w={header.getSize()} key={header.id}>
                 {header.column.columnDef.header}
+                <Box
+                  onMouseDown={header.getResizeHandler()}
+                  onTouchStart={header.getResizeHandler()}
+                  className={`resizer ${
+                    header.column.getIsResizing() ? "getIsResizing" : ""
+                  }`}
+                ></Box>
+              </Box>
+            ))}
+          </Box>
+        ))}
+        {table.getRowModel().rows.map((row) => (
+          <Box className="tr" key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <Box className="td" w={cell.column.getSize} key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </Box>
             ))}
           </Box>
