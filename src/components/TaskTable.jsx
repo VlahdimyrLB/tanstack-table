@@ -6,13 +6,15 @@ import {
 } from "@tanstack/react-table";
 import DATA from "../data";
 import { useState } from "react";
+import EditableCell from "./EditableCell";
 
 const columns = [
   {
     header: "TASK",
     accessorKey: "task",
     size: 225,
-    cell: (props) => <p>{props.getValue()}</p>,
+    // cell: (props) => <p>{props.getValue()}</p>,
+    cell: EditableCell,
   },
   {
     header: "STATUS",
@@ -37,9 +39,17 @@ const TaskTable = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     columnResizeMode: "onChange",
+    meta: {
+      updateData: (rowIndex, columnId, value) =>
+        setData((prev) =>
+          prev.map((row, index) =>
+            index === rowIndex ? { ...prev[row], [columnId]: value } : row
+          )
+        ),
+    },
   });
 
-  console.log(table.getHeaderGroups());
+  console.log(data);
   return (
     <Box>
       <Box className="table" w={table.getTotalSize()}>
