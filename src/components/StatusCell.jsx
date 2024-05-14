@@ -25,7 +25,7 @@ const StatusCell = ({ getValue, row, column, table }) => {
             onClick={() => updateData(row.index, column.id, status)}
             key={status.id}
           >
-            <ColorIcon color={status.color} />
+            <ColorIcon color={status.color} style={{ marginRight: "5px" }} />
             {status.name}
           </MenuItem>
         ))}

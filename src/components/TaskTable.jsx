@@ -8,6 +8,7 @@ import DATA from "../data";
 import { useState } from "react";
 import EditableCell from "./EditableCell";
 import StatusCell from "./StatusCell";
+import DateCell from "./DateCell";
 
 const columns = [
   {
@@ -26,12 +27,15 @@ const columns = [
   {
     header: "DUE",
     accessorKey: "due",
-    cell: (props) => <p>{props.getValue()?.toLocaleTimeString()}</p>,
+    // cell: (props) => <p>{props.getValue()?.toLocaleTimeString()}</p>,
+    cell: DateCell,
   },
   {
     header: "NOTES",
     accessorKey: "notes",
-    cell: (props) => <p>{props.getValue()}</p>,
+    size: 225,
+    // cell: (props) => <p>{props.getValue()}</p>,
+    cell: EditableCell,
   },
 ];
 const TaskTable = () => {
