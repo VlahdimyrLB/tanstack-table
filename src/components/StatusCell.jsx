@@ -1,9 +1,10 @@
 import { Menu, MenuButton, MenuItem, MenuList, Box } from "@chakra-ui/react";
 import { STATUSES } from "../data";
 
-const ColorIcon = ({ color, ...props }) => (
+export const ColorIcon = ({ color, ...props }) => (
   <Box w="12px" h="12px" bg={color} borderRadius="6px" {...props} />
 );
+
 const StatusCell = ({ getValue, row, column, table }) => {
   const { name, color } = getValue() || {};
   const { updateData } = table.options.meta;

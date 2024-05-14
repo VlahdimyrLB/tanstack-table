@@ -68,6 +68,7 @@ const TaskTable = () => {
         columnFilters={columnFilters}
         setColumnFilters={setColumnFilters}
       />
+
       <Box className="table" w={table.getTotalSize()}>
         {table.getHeaderGroups().map((headerGroup) => (
           <Box className="tr" key={headerGroup.id}>

@@ -4,9 +4,10 @@ import {
   Input,
   InputRightAddon,
   Icon,
+  HStack,
 } from "@chakra-ui/react";
 import SearchIcon from "../components/icons/SearchIcon";
-
+import FilterPopover from "./FilterPopover";
 const Filters = ({ columnFilters, setColumnFilters }) => {
   const taskName =
     columnFilters.find((filter) => filter.id === "task")?.value || "";
@@ -21,7 +22,7 @@ const Filters = ({ columnFilters, setColumnFilters }) => {
         })
     );
   return (
-    <Box mb="6">
+    <HStack mb="6">
       <InputGroup size="sm" maxW="12rem">
         <InputRightAddon pointerEvents="none">
           <Icon as={SearchIcon}></Icon>
@@ -35,7 +36,11 @@ const Filters = ({ columnFilters, setColumnFilters }) => {
           onChange={(e) => onFilterChange("task", e.target.value)}
         ></Input>
       </InputGroup>
-    </Box>
+      <FilterPopover
+        columnFilters={columnFilters}
+        setColumnFilters={setColumnFilters}
+      />
+    </HStack>
   );
 };
 export default Filters;
