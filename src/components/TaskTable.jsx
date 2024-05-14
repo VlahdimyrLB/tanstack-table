@@ -7,6 +7,7 @@ import {
 import DATA from "../data";
 import { useState } from "react";
 import EditableCell from "./EditableCell";
+import StatusCell from "./StatusCell";
 
 const columns = [
   {
@@ -19,7 +20,8 @@ const columns = [
   {
     header: "STATUS",
     accessorKey: "status",
-    cell: (props) => <p>{props.getValue()?.name}</p>,
+    // cell: (props) => <p>{props.getValue()?.name}</p>,
+    cell: StatusCell,
   },
   {
     header: "DUE",
