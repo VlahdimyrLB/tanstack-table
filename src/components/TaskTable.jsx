@@ -43,13 +43,13 @@ const TaskTable = () => {
       updateData: (rowIndex, columnId, value) =>
         setData((prev) =>
           prev.map((row, index) =>
-            index === rowIndex ? { ...prev[row], [columnId]: value } : row
+            index === rowIndex ? { ...prev[rowIndex], [columnId]: value } : row
           )
         ),
     },
   });
 
-  console.log(data);
+  console.log("data", data);
   return (
     <Box>
       <Box className="table" w={table.getTotalSize()}>
