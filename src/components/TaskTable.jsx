@@ -1,8 +1,9 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Icon } from "@chakra-ui/react";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import DATA from "../data";
@@ -11,6 +12,7 @@ import EditableCell from "./EditableCell";
 import StatusCell from "./StatusCell";
 import DateCell from "./DateCell";
 import Filters from "./Filters";
+import SortIcon from "../components/icons/SortIcon";
 
 const columns = [
   {
@@ -27,6 +29,7 @@ const columns = [
     accessorKey: "status",
     // cell: (props) => <p>{props.getValue()?.name}</p>,
     cell: StatusCell,
+    enableSorting: false,
     enableColumnFilter: true,
     filterFn: (row, columnId, filterStatuses) => {
       if (filterStatuses.length === 0) return true;
@@ -58,6 +61,7 @@ const TaskTable = () => {
     state: { columnFilters },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
     meta: {
       updateData: (rowIndex, columnId, value) =>
@@ -83,6 +87,23 @@ const TaskTable = () => {
             {headerGroup.headers.map((header) => (
               <Box className="th" w={header.getSize()} key={header.id}>
                 {header.column.columnDef.header}
+                {header.column.getCanSort() && (
+                  <Icon
+                    as={SortIcon}
+                    mx={3}
+                    fontSize={14}
+                    onClick={header.column.getToggleSortingHandler()}
+                  />
+                )}
+                {
+                  // CODE COMMENTED WILL WORK FOR CUSTOMIZATION
+                  // {
+                  //   asc: "ASC",
+                  //   desc: "DESC",
+                  // }[header.column.getIsSorted()]
+
+                  header.column.getIsSorted()
+                }
                 <Box
                   onMouseDown={header.getResizeHandler()}
                   onTouchStart={header.getResizeHandler()}
