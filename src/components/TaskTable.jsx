@@ -19,12 +19,20 @@ const columns = [
     size: 225,
     // cell: (props) => <p>{props.getValue()}</p>,
     cell: EditableCell,
+    enableColumnFilter: true,
+    filterFn: "includesString",
   },
   {
     header: "STATUS",
     accessorKey: "status",
     // cell: (props) => <p>{props.getValue()?.name}</p>,
     cell: StatusCell,
+    enableColumnFilter: true,
+    filterFn: (row, columnId, filterStatuses) => {
+      if (filterStatuses.length === 0) return true;
+      const status = row.getValue(columnId);
+      return filterStatuses.includes(status?.id);
+    },
   },
   {
     header: "DUE",

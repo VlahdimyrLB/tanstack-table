@@ -16,13 +16,14 @@ import FilterIcon from "../components/icons/FilterIcon";
 import { STATUSES } from "../data";
 import { ColorIcon } from "./StatusCell";
 
-const StatusItem = ({ status, setColumnFilters }) => (
+const StatusItem = ({ status, setColumnFilters, isActive }) => (
   <Flex
     align="center"
     cursor="pointer"
     borderRadius={5}
     fontWeight="bold"
     p={1.5}
+    bg={isActive ? "gray.800" : "transparent"}
     _hover={{ bg: "gray.800" }}
     onClick={() =>
       setColumnFilters((prev) => {
@@ -33,6 +34,17 @@ const StatusItem = ({ status, setColumnFilters }) => (
             value: [status.id],
           });
         }
+
+        return prev.map((f) =>
+          f.id === "status"
+            ? {
+                ...f,
+                value: isActive
+                  ? statuses.filter((s) => s !== status.id)
+                  : statuses.concat(status.id),
+              }
+            : f
+        );
       })
     }
   >
@@ -41,7 +53,9 @@ const StatusItem = ({ status, setColumnFilters }) => (
   </Flex>
 );
 
-const FilterPopover = ({ columnFilters, setColumnFilters }) => {
+const FilterPopover = ({ columnFilters, setColumnFilters, isActive }) => {
+  const filterStatus =
+    columnFilters.find((f) => f.id === "status")?.value || [];
   return (
     <Popover>
       <PopoverTrigger>
@@ -65,6 +79,7 @@ const FilterPopover = ({ columnFilters, setColumnFilters }) => {
                 setColumnFilters={setColumnFilters}
                 status={status}
                 key={status.id}
+                isActive={filterStatus.includes(status.id)}
               />
             ))}
           </VStack>
